@@ -1,0 +1,28 @@
+cpp
+#include <iostream>
+#include <unordered_set>
+
+bool isInjective(int arr[], int n) {
+    std::unordered_set<int> values;
+
+    for (int i = 0; i < n; i++) {
+        if (values.find(arr[i]) != values.end()) {
+            return false;
+        }
+        values.insert(arr[i]);
+    }
+    return true;
+}
+
+int main() {
+    int arr[] = {1, 2, 3, 4, 5};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    if(isInjective(arr, n)) {
+        std::cout << "The function is injective." << std::endl;
+    } else {
+        std::cout << "The function is not injective." << std::endl;
+    }
+
+    return 0;
+}
