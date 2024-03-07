@@ -1,0 +1,63 @@
+cpp
+#include <iostream>
+#include <vector>
+
+class Block {
+public:
+    int index;
+    int timestamp;
+    int previousHash;
+    std::string data;
+    int hash;
+
+    Block(int index, int previousHash, std::string data) {
+        this->index = index;
+        this->previousHash = previousHash;
+        this->data = data;
+        this->timestamp = time(nullptr);
+        this->hash = generateHash();
+    }
+
+    int generateHash() {
+        // Simple hash generation logic
+        // Use any suitable algorithm for a real blockchain system
+        return index + timestamp + previousHash + data.length();
+    }
+};
+
+class Blockchain {
+private:
+    std::vector<Block> chain;
+
+public:
+    Blockchain() {
+        chain.push_back(Block(0, 0, "Genesis Block"));
+    }
+
+    Block getLatestBlock() {
+        return chain.back();
+    }
+
+    void addBlock(std::string data) {
+        Block newBlock(chain.size(), getLatestBlock().hash, data);
+        chain.push_back(newBlock);
+    }
+
+    void printChain() {
+        std::cout << "Blockchain:" << std::endl;
+        for (const auto& block : chain) {
+            std::cout << "Block " << block.index << ": " << block.data << std::endl;
+        }
+    }
+};
+
+int main() {
+    Blockchain blockchain;
+    blockchain.addBlock("Transaction 1");
+    blockchain.addBlock("Transaction 2");
+    blockchain.addBlock("Transaction 3");
+
+    blockchain.printChain();
+
+    return 0;
+}
